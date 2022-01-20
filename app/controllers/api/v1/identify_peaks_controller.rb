@@ -1,13 +1,17 @@
 class Api::V1::IdentifyPeaksController < ApplicationController
 
     def peaks_calculator
-        sample_data = identify_peaks_params[:sample_data]
-        threshold = identify_peaks_params[:threshold]
-        if sample_data.present? && threshold.present?
-            result = PeaksCalculator.new(sample_data, threshold).perform
-            render json: result
+        request = Api::EvaluateRequest.new(identify_peaks_params)
+        if request.valid?(:peaks_calculator)
+            begin
+                result = PeaksCalculator.new(request.sample_data, request.threshold).perform
+                render json: result, status: 200
+
+            rescue Exception => e
+                render json: {errors: exception.message}.to_json, status: 500
+            end
         else
-            render json: {data: "Kindly provide both i.e threshold and sample_data"}
+            render json: {errors: request.errors.messages}.to_json, status: 400
         end
     end
 
