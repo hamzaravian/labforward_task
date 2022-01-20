@@ -4,9 +4,10 @@ class Api::V1::IdentifyPeaksController < ApplicationController
         sample_data = identify_peaks_params[:sample_data]
         threshold = identify_peaks_params[:threshold]
         if sample_data.present? && threshold.present?
-          ### peaks calculator logic to be added here
+            result = PeaksCalculator.new(sample_data, threshold).perform
+            render json: result
         else
-          render json: {data: "Kindly provide both i.e threshold and sample_data"}
+            render json: {data: "Kindly provide both i.e threshold and sample_data"}
         end
     end
 
