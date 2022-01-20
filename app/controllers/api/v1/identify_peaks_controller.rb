@@ -8,19 +8,19 @@ module Api
         if request.valid?(:peaks_calculator)
           begin
             result = PeaksCalculator.new(request.sample_data, request.threshold).perform
-            render json: { data: result }, status: 200
-          rescue Exception => e
+            render json: {data: result}, status: 200
+          rescue StandardError => e
             failure(e.message)
           end
         else
-          errors(req.errors, 'Required Params are not validated.')
+          errors(request.errors, "provided values are not correct.")
         end
       end
 
       private
 
       def identify_peaks_params
-        params.require(:identify_peaks).permit({ sample_data: [] }, :threshold)
+        params.require(:identify_peaks).permit({sample_data: []}, :threshold)
       end
     end
   end

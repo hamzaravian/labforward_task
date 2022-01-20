@@ -9,11 +9,11 @@ module Api
     validate :verify_threshold, on: [:peaks_calculator]
 
     def verify_sample_data
-      return errors.add(:base, 'Data is not an array.') unless sample_data.is_a?(Array)
+      return errors.add(:base, "sample_data is not an array.") unless sample_data.is_a?(Array)
     end
 
     def verify_threshold
-      return errors.add(:base, 'Threshold is not integer.') unless threshold.is_a?(Integer)
+      return errors.add(:base, "threshold is not an integer.") unless threshold.is_a?(Integer)
     end
   end
 end
