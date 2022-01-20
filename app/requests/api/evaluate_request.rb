@@ -1,16 +1,19 @@
-class Api::EvaluateRequest < Api::ApiCommonRequest
+# frozen_string_literal: true
 
+module Api
+  class EvaluateRequest < Api::ApiCommonRequest
     attr_accessor :sample_data, :threshold
-  
+
     validates :sample_data, :threshold, presence: true, on: [:peaks_calculator]
     validate :verify_sample_data, on: [:peaks_calculator]
     validate :verify_threshold, on: [:peaks_calculator]
-  
+
     def verify_sample_data
-        return errors.add(:error_messages, 'Data is not an array.') unless sample_data.kind_of?(Array)
+      return errors.add(:base, 'Data is not an array.') unless sample_data.is_a?(Array)
     end
 
     def verify_threshold
-        return errors.add(:error_messages, 'Threshold is not integer.') unless threshold.kind_of?(Integer)
+      return errors.add(:base, 'Threshold is not integer.') unless threshold.is_a?(Integer)
     end
+  end
 end
