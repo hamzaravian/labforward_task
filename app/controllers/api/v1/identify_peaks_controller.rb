@@ -14,7 +14,7 @@ class Api::V1::IdentifyPeaksController < ApplicationController
     private
 
     def identify_peaks_params
-      params.permit( {:sample_data => []}, :threshold )
+      params.require(:identify_peaks).permit( {:sample_data => []}, :threshold )
     end
 
 end
